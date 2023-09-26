@@ -48,7 +48,7 @@ class App {
 		const width = this._divContainer.clientWidth;
 		const height = this._divContainer.clientHeight;
 		const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
-		camera.position.z = 2;
+		camera.position.z = 2; // 카메라의 위치 지정
 		this._camera = camera;
 	}
 
@@ -60,9 +60,12 @@ class App {
 		this._scene.add(light); // scene의 구성 요소로 추가
 	}
 
+	/**
+	 * BoxGeometry
+	 */
 	_setupModel() {
-		// const geometry = new THREE.BoxGeometry(1, 1, 1); //세그먼트 수를 지정하지 않으면 기본이 1,1,1임
-		const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2); // 세그먼트수를 2,2,2로 지정
+		const geometry = new THREE.BoxGeometry(1, 1, 1); //세그먼트 수를 지정하지 않으면 기본이 1,1,1임
+		// const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2); // 세그먼트수를 2,2,2로 지정
 
 		// 메쉬 오브젝트 생성
 		const fillMaterial = new THREE.MeshPhongMaterial({ color: 0x515151 });
@@ -71,7 +74,10 @@ class App {
 		// 라인 오브젝트 생성
 		const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffff00 });
 		const line = new THREE.LineSegments(
+			// WireframeGeometry는 모든 외곽선을 표시함
 			new THREE.WireframeGeometry(geometry),
+			// 모든 외곽선이 표시되지 않음
+			// geometry,
 			lineMaterial
 		);
 
@@ -83,6 +89,25 @@ class App {
 		this._scene.add(group);
 		this._cube = group;
 	}
+
+	// _setupModel() {
+	// 	const shape = new THREE.Shape();
+	// 	// 화면 중앙이 0,0이고
+	// 	shape.moveTo(1, 1); // 지점1
+	// 	shape.lineTo(1, -1); // 지점2: 지점1~지점2 선긋기
+	// 	shape.lineTo(-1, -1); // 지점3
+	// 	shape.lineTo(-1, 1); // 지점4
+	// 	shape.closePath(); // 지점1과 폐합
+
+	// 	const geometry = new THREE.BufferGeometry();
+	// 	const points = shape.getPoints();
+	// 	geometry.setFromPoints(points);
+
+	// 	const material = new THREE.LineBasicMaterial({ color: 0xffff00 });
+	// 	const line = new THREE.Line(geometry, material);
+
+	// 	this._scene.add(line);
+	// }
 
 	resize() {
 		const width = this._divContainer.clientWidth;
